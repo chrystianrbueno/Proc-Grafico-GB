@@ -88,17 +88,6 @@ void Sprite::draw()
 	glBindVertexArray(0);
 }
 
-void Sprite::draw2()
-{
-	shader->Use();
-	glBindTexture(GL_TEXTURE_2D, texID);
-	glUniform1i(glGetUniformLocation(shader->ID, "ourTextureInicial"), 0);
-
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
-
 void Sprite::update()
 {
 	//Por enquanto o update é basicamente pedir para atualizar no shader 
@@ -108,24 +97,9 @@ void Sprite::update()
 	setRotation(angle, glm::vec3(0.0f, 0.0f, 1.0f), false);
 	setScale(scale, false);
 
+	shader->Use();
+
 	GLint transformLoc = glGetUniformLocation(shader->ID, "model");
-	// Pass them to the shaders
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-	//TO DO: quando tiver animação por spritesheet, passar os deslocamentos
-	//nas coords de textura
-}
-
-void Sprite::update2()
-{
-	//Por enquanto o update é basicamente pedir para atualizar no shader 
-	//a matriz de transformação
-
-	setTranslation(pos);
-	setRotation(angle, glm::vec3(0.0f, 0.0f, 1.0f), false);
-	setScale(scale, false);
-
-	GLint transformLoc = glGetUniformLocation(shader->ID, "modelInicial");
 	// Pass them to the shaders
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 

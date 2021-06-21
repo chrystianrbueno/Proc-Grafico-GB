@@ -68,13 +68,13 @@ void SceneManager::initializeGraphics()
 
 void SceneManager::addShader()
 {
+	objShader.push_back(new Shader("../shaders/transformations.vs", "../shaders/transformations.frag"));
 	objShader.push_back(new Shader("../shaders/binarizacao.vs", "../shaders/binarizacao.frag"));
 	objShader.push_back(new Shader("../shaders/bluerender.vs", "../shaders/bluerender.frag"));
 	objShader.push_back(new Shader("../shaders/inversao.vs", "../shaders/inversao.frag"));
 	objShader.push_back(new Shader("../shaders/grayscale.vs", "../shaders/grayscale.frag"));
 	objShader.push_back(new Shader("../shaders/colorizacao.vs", "../shaders/colorizacao.frag"));
 	objShader.push_back(new Shader("../shaders/myfilter.vs", "../shaders/myfilter.frag"));
-	objShader.push_back(new Shader("../shaders/transformations.vs", "../shaders/transformations.frag"));
 }
 
 
@@ -181,22 +181,22 @@ void SceneManager::render()
 	}
 
 	if (mousePrimeiraImagem) {
-		objects[6]->setShader(objShader[0]);
+		objects[0]->setShader(objShader[1]);
 	}
 	if (mouseSegundaImagem) {
-		objects[6]->setShader(objShader[1]);
+		objects[0]->setShader(objShader[2]);
 	}
 	if (mouseTerceiraImagem) {
-		objects[6]->setShader(objShader[2]);
+		objects[0]->setShader(objShader[3]);
 	}
 	if (mouseQuartaImagem) {
-		objects[6]->setShader(objShader[3]);
+		objects[0]->setShader(objShader[4]);
 	}
 	if (mouseQuintaImagem) {
-		objects[6]->setShader(objShader[4]);
+		objects[0]->setShader(objShader[5]);
 	}
 	if (mouseSextaImagem) {
-		objects[6]->setShader(objShader[5]);
+		objects[0]->setShader(objShader[6]);
 	}
 
 	
