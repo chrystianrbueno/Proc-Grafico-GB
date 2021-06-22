@@ -10,6 +10,8 @@ static bool mouseQuartaImagem = false;
 static bool mouseQuintaImagem = false;
 static bool mouseSextaImagem = false;
 static bool flagFirst = true;
+static vector <bool> listSticker;
+
 static GLuint width, height;
 
 SceneManager::SceneManager()
@@ -101,41 +103,78 @@ void SceneManager::mouse_button_callback(GLFWwindow* window, int button, int act
 
 			if (xpos >= 280.0f && xpos <= 310.0f)
 			{
-				mousePrimeiraImagem = true;
-				cout << " 1 ";
+				mousePrimeiraImagem = !mousePrimeiraImagem;
+				mouseSegundaImagem = false;
+				mouseTerceiraImagem = false;
+				mouseQuartaImagem = false;
+				mouseQuintaImagem = false;
+				mouseSextaImagem = false;
+
 			}
 			else if (xpos >= 320.0f && xpos <= 350.0f) {
-				mouseSegundaImagem = true;
-				cout << " 2 ";
+				mousePrimeiraImagem = false;
+				mouseSegundaImagem = !mouseSegundaImagem;
+				mouseTerceiraImagem = false;
+				mouseQuartaImagem = false;
+				mouseQuintaImagem = false;
+				mouseSextaImagem = false;
 			}
 			else if (xpos >= 360.0f && xpos <= 390.0f) {
-				mouseTerceiraImagem = true;
-				cout << " 3 ";
+				mousePrimeiraImagem = false;
+				mouseSegundaImagem = false;
+				mouseTerceiraImagem = !mouseTerceiraImagem;
+				mouseQuartaImagem = false;
+				mouseQuintaImagem = false;
+				mouseSextaImagem = false;
 			}
 			else if (xpos >= 400.0f && xpos <= 430.0f) {
-				mouseQuartaImagem = true;
-				cout << " 4 ";
+				mousePrimeiraImagem = false;
+				mouseSegundaImagem = false;
+				mouseTerceiraImagem = false;
+				mouseQuartaImagem = !mouseQuartaImagem;
+				mouseQuintaImagem = false;
+				mouseSextaImagem = false;
 			}
 			else if (xpos >= 440.0f && xpos <= 470.0f) {
-				mouseQuintaImagem = true;
-				cout << " 5 ";
+				mousePrimeiraImagem = false;
+				mouseSegundaImagem = false;
+				mouseTerceiraImagem = false;
+				mouseQuartaImagem = false;
+				mouseQuintaImagem = !mouseQuintaImagem;
+				mouseSextaImagem = false;
 			}
 			else if (xpos >= 480.0f && xpos <= 510.0f) {
-				mouseSextaImagem = true;
-				cout << " 6 ";
+				mousePrimeiraImagem = false;
+				mouseSegundaImagem = false;
+				mouseTerceiraImagem = false;
+				mouseQuartaImagem = false;
+				mouseQuintaImagem = false;
+				mouseSextaImagem = !mouseSextaImagem;
+			}
+
+		}
+		else if (ypos >= 30.0f && ypos <= 80) {
+			if (xpos >= 280.0f && xpos <= 310.0f) {
+				listSticker[0] = !listSticker[0];
+			}
+			else if (xpos >= 320.0f && xpos <= 350.0f) {
+				listSticker[1] = !listSticker[1];
+			}
+			else if (xpos >= 360.0f && xpos <= 390.0f) {
+				listSticker[2] = !listSticker[2];
+			}
+			else if (xpos >= 400.0f && xpos <= 430.0f) {
+				listSticker[3] = !listSticker[3];
+			}
+			else if (xpos >= 440.0f && xpos <= 470.0f) {
+				listSticker[4] = !listSticker[4];
+			}
+			else if (xpos >= 480.0f && xpos <= 510.0f) {
+				listSticker[5] = !listSticker[5];
 			}
 
 		}
 
-	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-	{
-		mousePrimeiraImagem = false;
-		mouseSegundaImagem = false;
-		mouseTerceiraImagem = false;
-		mouseQuartaImagem = false;
-		mouseQuintaImagem = false;
-		mouseSextaImagem = false;
 	}
 }
 
@@ -174,32 +213,47 @@ void SceneManager::render()
 		resized = false;
 	}
 
-	//atualiza e desenha os Sprites
-	for (Sprite* img : objects) {
-			img->update();
-			img->draw();
+	objInitial[0]->update();
+	objInitial[0]->draw();
+
+	for (Sprite* miniSticker : objMiniSticker) {
+		miniSticker->update();
+		miniSticker->draw();
+	}
+
+	for (Sprite* imgInicial : objects) {
+		imgInicial->update();
+		imgInicial->draw();
 	}
 
 	if (mousePrimeiraImagem) {
-		objects[0]->setShader(objShader[1]);
+		objInitial[0]->setShader(objShader[1]);
 	}
-	if (mouseSegundaImagem) {
-		objects[0]->setShader(objShader[2]);
+	else	if (mouseSegundaImagem) {
+		objInitial[0]->setShader(objShader[2]);
 	}
-	if (mouseTerceiraImagem) {
-		objects[0]->setShader(objShader[3]);
+	else 	if (mouseTerceiraImagem) {
+		objInitial[0]->setShader(objShader[3]);
 	}
-	if (mouseQuartaImagem) {
-		objects[0]->setShader(objShader[4]);
+	else 	if (mouseQuartaImagem) {
+		objInitial[0]->setShader(objShader[4]);
 	}
-	if (mouseQuintaImagem) {
-		objects[0]->setShader(objShader[5]);
+	else 	if (mouseQuintaImagem) {
+		objInitial[0]->setShader(objShader[5]);
 	}
-	if (mouseSextaImagem) {
-		objects[0]->setShader(objShader[6]);
+	else 	if (mouseSextaImagem) {
+		objInitial[0]->setShader(objShader[6]);
+	}
+	else {
+		objInitial[0]->setShader(objShader[0]);
 	}
 
-	
+	for (int i = 0; i < 6; i++) {
+		if (listSticker[i]) {
+			objSticker[i]->update();
+			objSticker[i]->draw();
+		}
+	}
 
 }
 
@@ -237,22 +291,118 @@ void SceneManager::setupScene()
 	unsigned int texID = loadTexture("../textures/lena.png");
 	Sprite* obj = new Sprite;
 	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
-	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f)); //note que depois podemos reescalar conforme tamanho da sprite
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
 	obj->setShader(objShader[0]);
-	objects.push_back(obj); //adiciona o primeiro obj
-	objects[0]->setTexture(texID);
+	objInitial.push_back(obj);
+	objInitial[0]->setTexture(texID);
 
 	float xInicial = 280.0f;
-	for (int i = 1; i < 7; i++) {
+	for (int i = 0; i < 6; i++) {
 		obj = new Sprite;
 		obj->setPosition(glm::vec3(xInicial, 50.0f, 0.0));
-		obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f)); //note que depois podemos reescalar conforme tamanho da sprite
-		obj->setShader(objShader[i]);
+		obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+		obj->setShader(objShader[i + 1]);
 		objects.push_back(obj);
 		objects[i]->setTexture(texID);
 
 		xInicial += 40;
-		cout << "funcionando";
+	}
+
+	texID = loadTexture("../textures/sticker.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 500.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[0]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[0]->setTexture(texID);
+
+	texID = loadTexture("../textures/estrelas.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 520.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[1]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[1]->setTexture(texID);
+
+	texID = loadTexture("../textures/ouro.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 520.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[2]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[2]->setTexture(texID);
+
+	texID = loadTexture("../textures/fogos.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 520.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[3]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[3]->setTexture(texID);
+
+	texID = loadTexture("../textures/chuva.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 520.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[4]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[4]->setTexture(texID);
+
+	texID = loadTexture("../textures/tornado.png");
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(280.0f, 520.0f, 0.0));
+	obj->setDimension(glm::vec3(30.0f, 40.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objMiniSticker.push_back(obj);
+	objMiniSticker[5]->setTexture(texID);
+
+	obj = new Sprite;
+	obj->setPosition(glm::vec3(250.0f, 100.0f, 0.0));
+	obj->setDimension(glm::vec3(300.0f, 400.0f, 1.0f));
+	obj->setShader(objShader[0]);
+	objSticker.push_back(obj);
+	objSticker[5]->setTexture(texID);
+
+	float xInicialSticker = 280.0f;
+	for (Sprite* miniSticker : objMiniSticker) {
+		miniSticker->setPosition(glm::vec3(xInicialSticker, 520.0f, 0.0));
+		xInicialSticker += 40;
+		listSticker.push_back(false);
 	}
 
 	//Definindo a janela do mundo (ortho2D)

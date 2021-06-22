@@ -35,8 +35,6 @@ public:
 	void draw();
 	void update();
 
-	void draw2();
-	void update2();
 	//TO DO: métodos para animação
 
 protected:

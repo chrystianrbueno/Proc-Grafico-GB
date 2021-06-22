@@ -48,6 +48,8 @@ private:
 	GLFWwindow *window;
 
 	vector <Sprite*> objInitial;
+	vector <Sprite*> objMiniSticker;
+	vector <Sprite*> objSticker;
 
 	//Câmera 2D - Matriz de projeção (ortográfica) com os limites em x,y
 	glm::vec4 ortho2D; //xmin, xmax, ymin, ymax
